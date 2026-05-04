@@ -1,26 +1,8 @@
-"""
-Student model for the students application.
-
-This module defines the Student model for storing student information
-including name, email, and age with timestamp tracking.
-"""
-
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.utils import timezone
 
 
 class Student(models.Model):
-    """
-    Student model to store student information.
-    
-    Attributes:
-        name: Student's full name (max 100 characters)
-        email: Student's email address (unique)
-        age: Student's age (between 5 and 100)
-        created_at: Timestamp when student record was created
-        updated_at: Timestamp when student record was last updated
-    """
     
     name = models.CharField(
         max_length=100,
@@ -54,9 +36,6 @@ class Student(models.Model):
     )
     
     class Meta:
-        """
-        Meta options for the Student model.
-        """
         ordering = ['-created_at']
         verbose_name = 'Student'
         verbose_name_plural = 'Students'
@@ -66,10 +45,8 @@ class Student(models.Model):
         ]
     
     def __str__(self):
-        """Return the string representation of the student."""
         return f"{self.name} ({self.email})"
     
     def __repr__(self):
-        """Return the developer-friendly representation of the student."""
         return f"<Student: {self.name} - {self.email}>"
 

@@ -1,25 +1,10 @@
-"""
-Forms for the students application.
-
-This module defines forms used for collecting and validating student information.
-"""
-
 from django import forms
 from .models import Student
 
 
 class StudentForm(forms.ModelForm):
-    """
-    Form for creating and updating Student records.
-    
-    This form is based on the Student model and provides fields for
-    entering student information with Django-provided validation.
-    """
     
     class Meta:
-        """
-        Meta options for StudentForm.
-        """
         model = Student
         fields = ['name', 'email', 'age']
         
@@ -57,7 +42,6 @@ class StudentForm(forms.ModelForm):
         }
     
     def clean_name(self):
-        """Validate that name is not empty and remove extra whitespace."""
         name = self.cleaned_data.get('name', '').strip()
         
         if not name:
@@ -69,7 +53,6 @@ class StudentForm(forms.ModelForm):
         return name
     
     def clean_age(self):
-        """Validate age range."""
         age = self.cleaned_data.get('age')
         
         if age is not None:
@@ -81,16 +64,12 @@ class StudentForm(forms.ModelForm):
         return age
     
     def clean_email(self):
-        """Validate email uniqueness for new instances."""
         email = self.cleaned_data.get('email', '').lower()
         
-        # Check if email already exists (excluding current instance in update)
         if self.instance.pk:
-            # Update case: exclude current instance
             if Student.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
                 raise forms.ValidationError('This email address is already in use.')
         else:
-            # Create case
             if Student.objects.filter(email=email).exists():
                 raise forms.ValidationError('This email address is already in use.')
         

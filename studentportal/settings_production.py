@@ -1,30 +1,11 @@
-"""
-Production settings for Django Student Portal.
-
-This file provides production-ready configuration with:
-- Debug disabled
-- PostgreSQL database
-- Security hardening
-- Email configuration
-- Logging setup
-
-To use these settings in production:
-1. Create .env file with all required variables
-2. Set DJANGO_SETTINGS_MODULE=studentportal.settings.production
-3. Use Gunicorn or similar ASGI server
-"""
-
 import os
 from decouple import config, Csv
 from studentportal.settings import *
 
-# Security - Disable debug in production
 DEBUG = False
 
-# Allowed hosts - configure for your domain
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost', cast=Csv())
 
-# HTTPS/SSL Configuration
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -35,12 +16,10 @@ SECURE_CONTENT_SECURITY_POLICY = {
     'style-src': ("'self'", "'unsafe-inline'"),
 }
 
-# HSTS (HTTP Strict Transport Security)
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-# Database Configuration - PostgreSQL (recommended)
 DATABASES = {
     'default': {
         'ENGINE': config('DATABASE_ENGINE', default='django.db.backends.postgresql'),
@@ -54,7 +33,6 @@ DATABASES = {
     }
 }
 
-# Email Configuration
 EMAIL_BACKEND = config(
     'EMAIL_BACKEND',
     default='django.core.mail.backends.smtp.EmailBackend'
@@ -66,16 +44,13 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@studentportal.com')
 
-# Static Files (use CDN or S3 in production)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
-# Media Files (use S3 in production)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Logging Configuration
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -94,7 +69,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
-            'maxBytes': 1024 * 1024 * 15,  # 15MB
+            'maxBytes': 1024 * 1024 * 15,
             'backupCount': 10,
             'formatter': 'verbose',
         },
@@ -123,12 +98,10 @@ LOGGING = {
     },
 }
 
-# Error reporting
 ADMINS = [
     (config('ADMIN_NAME', default='Admin'), config('ADMIN_EMAIL', default='admin@example.com')),
 ]
 
-# Cache Configuration (use Redis in production)
 CACHES = {
     'default': {
         'BACKEND': config(
@@ -139,10 +112,9 @@ CACHES = {
     }
 }
 
-# Session Configuration
 SESSION_CACHE_ALIAS = 'default'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_COOKIE_AGE = 1209600
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -161,8 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Performance and Optimization
-FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 
 # Allowed file types for upload (if implementing file uploads)
