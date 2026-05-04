@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Student</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .warning-icon {
+            font-size: 60px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .warning-message {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .student-info {
+            background: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .info-row {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .info-value {
+            color: #333;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        form,
+        .btn {
+            flex: 1;
+        }
+        
+        button,
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        button {
+            background: #dc3545;
+            color: white;
+            width: 100%;
+        }
+        
+        .btn {
+            background: #6c757d;
+            color: white;
+        }
+        
+        button:hover,
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active,
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            form {
+                flex: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning-icon">⚠</div>
+        
+        <h1>Delete Student</h1>
+        
+        <div class="warning-message">
+            <p>Are you sure you want to delete this student record? This action cannot be undone.</p>
+        </div>
+        
+        <div class="student-info">
+            <div class="info-row">
+                <span class="info-label">Name:</span>
+                <span class="info-value">{{ student.name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">{{ student.email }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Age:</span>
+                <span class="info-value">{{ student.age }}</span>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit">Yes, Delete Permanently</button>
+            </form>
+            <a href="{% url 'students:student_detail' student.pk %}" class="btn">Cancel</a>
+        </div>
+    </div>
+</body>
+</html>

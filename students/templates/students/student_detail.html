@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ student.name }} - Student Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .card-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .detail-group {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-group:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .actions a {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .btn-edit {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .actions a:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>{{ student.name }}</h1>
+            </div>
+            
+            <div class="card-body">
+                <div class="detail-group">
+                    <div class="detail-label">Full Name</div>
+                    <div class="detail-value">{{ student.name }}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Email Address</div>
+                    <div class="detail-value">
+                        <a href="mailto:{{ student.email }}">{{ student.email }}</a>
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Age</div>
+                    <div class="detail-value">{{ student.age }} years old</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Registration Date</div>
+                    <div class="detail-value">{{ student.created_at|date:"F d, Y - H:i:s" }}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Last Updated</div>
+                    <div class="detail-value">{{ student.updated_at|date:"F d, Y - H:i:s" }}</div>
+                </div>
+                
+                <div class="actions">
+                    <a href="{% url 'students:student_update' student.pk %}" class="btn-edit">Edit Information</a>
+                    <a href="{% url 'students:student_list' %}" class="btn-back">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
